@@ -7,13 +7,10 @@ const todoInput = document.querySelector("#todo-input");
 taskList.onclick = function (e) {
     const taskItem = e.target.closest(".task-item");
     const taskIndex = taskItem.getAttribute("task-index");
-    console.log(taskIndex);
-
     const task = tasks[taskIndex];
-    console.log(task);
-
     if (e.target.closest(".edit")) {
         const newTitle = prompt("Nhập tiêu đề mới", task.title);
+        if(newTitle === null) return;
         task.title = newTitle;
         renderTasks();
     } else if (e.target.closest(".done")) {
@@ -44,6 +41,10 @@ todoForm.onsubmit = (e) => {
 };
 
 function renderTasks() {
+    if(!tasks.length) {
+        taskList.innerHTML = '<li class="empty-mesage"> No task avialable </li>';
+        return;
+    }
     const html = tasks
         .map(
             (task, index) => `
